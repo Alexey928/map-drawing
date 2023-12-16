@@ -1,4 +1,4 @@
-import React, {useEffect, useId, useRef, useState} from 'react';
+import React, {createRef, useEffect, useId, useRef, useState} from 'react';
 import {
     Circle,
     FeatureGroup,
@@ -12,14 +12,21 @@ import {
 } from "react-leaflet";
 
 
+
 import 'leaflet/dist/leaflet.css';
 import {LatLng, LatLngExpression} from "leaflet";
+import CalendarContainer from "./uiComponents/SelectOfData/CalendarContainer";
 
 type PositionType = {
     lat:number,
     lng:number
+
 }
 
+type FieldType = {
+    
+}
+const tempBasePosition  = {lat: 49.9935, lng: 36.230383};
 const polyline = [
     [51.505, -0.09],
     [51.51, -0.1],
@@ -71,6 +78,14 @@ const FormPopup: React.FC<PopupProps> = ({ onClose }) => {
             <button className="close-button" onClick={onClose}>
                 X
             </button>
+            <form style={{width:"93%",height:"99%",border:"1px solid red",display:"flex",flexDirection:"column"}} action="">
+               <span>Цвет поля -  <input  style={{width:35,borderRadius:10}}  type ="color" onBlur={()=>{
+                   console.log("color selected!")}}/>
+               </span>
+                <span> Нзавание -  <input type="text"/></span>
+
+                <CalendarContainer calback={()=>{}}/>
+            </form>
         </div>
     );
 };
@@ -87,8 +102,8 @@ const PointOfPoligons = (props:{calback:(posiyion:PositionType|null)=>void})=> {
         },
         locationfound(e) {
             console.log("location founding")
-            setPosition(e.latlng)
-            map.flyTo(e.latlng, map.getZoom())
+            setPosition(tempBasePosition  as  LatLng)
+            map.flyTo(tempBasePosition, map.getZoom())
         },
         zoom(e){
             console.log(e,"zoom was changed ")
@@ -101,11 +116,13 @@ const PointOfPoligons = (props:{calback:(posiyion:PositionType|null)=>void})=> {
     return null
 }
 const App = () => {
-    const [poligons , setPoligons] = useState<Array<number[][]>>([]);
+    const [fields , setFields] = useState<Array<number[][]>>([]);
     const [painedPosition , setPainedPosition]= useState<Array<PositionType>>([]);
     const [flagForPaointPaint ,setFlagForPointPaint] = useState<boolean>(false);
     const [isPopupOpen, setPopupOpen] = useState<boolean>(false);
-    console.log(poligons)
+    const [isMapPopupOpen,setIsMopPopupOpen]= useState(false);
+
+    console.log(fields)
     const calback = (position:PositionType | null)=>{
         if(!position) return
         setPainedPosition([...painedPosition,position])
@@ -117,7 +134,7 @@ const App = () => {
              painedPosition.forEach((el,i)=>{
                  tempPaligon.push([el.lat,el.lng]);
              })
-             setPoligons([...poligons,tempPaligon]);
+             setFields([...fields,tempPaligon]);
              setPainedPosition([]);
          }
      }
@@ -128,50 +145,52 @@ const App = () => {
 
     const handleClosePopup = () => {
         setPopupOpen(false);
+        setFlagForPointPaint(false);
     };
+    // useEffect(()=>{ хай мене украдуть ))))
+    //     const p = document.querySelector(".leaflet-popup-pane")
+    //     if(!p)return;
+    //     // p.classList.add("bacground");
+    //     if(!p.innerHTML) return;
+    //     p.getElementsByTagName("div")[1].classList.add("bacground");
+    //     console.log(p.getElementsByTagName("div")[1]);
+    // })
     const fillBlueOptions = { fillColor: 'blue'}
-    const blackOptions = { color: 'green' }
-    const limeOptions = { color: 'lime' }
-    const purpleOptions = { color: 'purple' }
-    const redOptions = { color: 'red' }
+    const limeOptions = { color: '#e305f1',fillColor: "rgb(241,5,40)" }
 
     return (
-        <div style={{width:800, height:600 , position:"relative"}}>
+        <div style={{width:"99vw", height:"90vh" , position:"relative"}}>
             <MapContainer  center={[49.9935, 36.230383]} zoom={10} scrollWheelZoom={true} style={{width:"100%",height:"100%",padding:0, zIndex:0,cursor:"pointer"}} >
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                <PointOfPoligons calback={calback}/>
-                {poligons.map((el,i)=>{
+                <PointOfPoligons calback={flagForPaointPaint?calback:()=>{}}/>
+                {fields.map((el,i)=>{
                     return(
                         <FeatureGroup eventHandlers={{
                             click:(e)=>{
                                 console.log(`${e.latlng} element`)
                             }
-                        }} pathOptions={purpleOptions}>
-                            <Popup autoClose  >
-                                <div style={{color:"blue",height:300,backgroundColor:"brown",width:280}}>
+                        }} pathOptions={limeOptions}>
+                            <Popup  autoClose className={"leaflet-popup-content-wrapper"} >
+                                <div style={{color:"blue",height:300,backgroundColor:"#adbbe8",width:280}}>
                                     <header style={{width: "100%", backgroundColor: "salmon"}}>
-                                        <div>
-                                            NAME
+                                        <div style={{color:"white",textAlign:"center"}}>
+                                            Номер/название Поля
                                         </div>
                                     </header>
-                                    <div style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        height: "100%",
-                                    }}>
-                                        <ul style={{listStyle:"none" , padding:0,color:"white"}}>
+                                    <div style={{}}>
+                                        <ul style={{listStyle:"none",padding:0,color:"white",width:"100%",height:"100%"}}>
                                             <li><span>культура - </span></li>
-                                            <li><span></span></li>
-                                            <li><span></span></li>
-                                            <li><span></span></li>
-                                            <li><span></span></li>
+                                            <li><span>посев : 25,03,2024 р </span></li>
+                                            <li><span>Обработка почв : 3 --</span></li>
+                                            <li><span>Внесение Удобрений :</span></li>
+                                            <li><span>Уборка : Дата </span></li>
                                         </ul>
                                     </div>
                                 </div>
+                                <button onClick={()=>setPopupOpen(!isPopupOpen)}>SET</button>
                             </Popup>
                          <Polygon key={i}  positions={el as LatLngExpression[]} />
                         </FeatureGroup>
@@ -189,11 +208,10 @@ const App = () => {
                 setPainedPosition([]);
                 console.log("rrr");
             }}>
-                {"<--"}
+                {"Сброс"}
             </button>
-            <button onClick={()=>{addPoligon();handleOpenPopup()}}>+</button>
-
-    </div>
+            <button disabled={!(painedPosition.length>2)} onClick={()=>{addPoligon();handleOpenPopup();}}>+</button>
+        </div>
     );
 };
 
