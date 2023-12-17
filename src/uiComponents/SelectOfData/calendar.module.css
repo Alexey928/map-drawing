@@ -5,11 +5,11 @@
     font-size: 16px;
     text-align: center;
     width: 115px;
-    background-color: #000525;
+    background-color: #63d06b;
     border-radius: 6px;
     padding-left: 5px;
     padding-right: 5px;
-    color:snow ;
+    color: #010617;
 }
 .dateSpan:hover{
     cursor: pointer;
@@ -19,14 +19,16 @@
     border: 1px solid white;
     position: absolute;
     width: 200px;
-    height: 250px;
-    background-color: #3bfc07;
+    height: 260px;
+    background-color: #d4e593;
     border-radius: 4px;
 }
 .calendar_header{
+    color: #00072a;
+    height: 25px;
     position: relative;
     width: 100%;
-    background-color: #244d67;
+    background-color:  #63d06b;
     text-align: center;
 }
 .calendar_header:hover{
@@ -53,20 +55,24 @@
     justify-content: center;
 }
 .calendar_item:hover{
-    border: 2px solid green;
+    border: 2px solid #72fa72;
     cursor: pointer;
     border-radius: 3px;
 }
 .arrow_left{
     border-radius: 50%;
-    background-color: #3bfc07;
+    border: 1px solid white;
+    padding: 3px 5px 3px 5px;
+    background-color: #ccbe1b;
     position:absolute;
     left: 5px;
 
 }
 .arrowRight{
     border-radius: 50%;
-    background-color: #3bfc07;
+    border: 1px solid white;
+    padding: 3px 5px 3px 5px;
+    background-color: #ccbe1b;
     position: absolute;
     right: 5px;
 }

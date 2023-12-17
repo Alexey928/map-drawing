@@ -38,7 +38,7 @@ const {selectedMonth,calendarDays,mode,selectedYear,selectedDate:date,weekDayNam
                     return(<div
                             key={i}
                             style={
-                                isAdditionalDay?{backgroundColor:"#3bfc07",color:isDayIqual?"#020041":"white"}:
+                                isAdditionalDay?{backgroundColor:"#2a71f5",color:isDayIqual?"#020041":"white"}:
                                                 {color:isDayIqual?"blue":"white"}
                                }
                                 onClick={()=>{

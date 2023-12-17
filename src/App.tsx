@@ -1,50 +1,62 @@
-import React, {createRef, useEffect, useId, useRef, useState} from 'react';
-import {Circle, FeatureGroup, MapContainer, Marker, Polygon, Popup, TileLayer, useMapEvents} from "react-leaflet";
+import React, {useState} from 'react';
+import {Circle, FeatureGroup, MapContainer, Polygon, Popup, TileLayer, useMapEvents} from "react-leaflet";
 import 'leaflet/dist/leaflet.css';
-import { LatLng, LatLngExpression} from "leaflet";
-import CalendarContainer from "./uiComponents/SelectOfData/CalendarContainer";
+import {  LatLngExpression} from "leaflet";
+
 import {v4 as uuidv4} from 'uuid';
+import FormPopup from "./copnents/Popup";
 
 type PositionType = {
     lat: number,
     lng: number
 
 }
+
 type MowingTheCropTaskType = {
     status: "isDone" | "inProgres"
-    type: "MOWING-THE-CROP"
+    type: "FOR-CULTURE"
     startDate: Date
     endDate: Date
 }
 type SprayingTaskType = {
-    type: "SPRAYING"
+    status: "isDone" | "inProgres"
+    type: "FOR-CULTURE"
 }
 type SoilWorksTaskType = {
-    type: "SOIL-WORKS"
+    status: "isDone" | "inProgres"
+    type: "FOR-FIELD"
 }
 type FertilizationTasksType = {
-    type:"FERTILZATION"
+    status: "isDone" | "inProgres"
+    type: "FOR-FIELD"
 }
-
-type FieldType = {
-    id: string;
+export type FieldType = {
+    id: string;// forigen
     trajectory: number[][];
     name: string | null;
-    culture: string[];
-    SoilWorksTasks: Array<SoilWorksTaskType>;// can bee refactoring to asociotiv array
-    FertilizationTasks:Array<FertilizationTasksType>;
-    SprayingTasks:Array<SprayingTaskType>;
-    MowingTheCropTasks:Array<MowingTheCropTaskType>;
+    culture: Array<{id:string,name:string,collor:string}>;
+    // SoilWorksTasks: Array<SoilWorksTaskType>;// can bee refactoring to asociotiv array
+    // FertilizationTasks:Array<FertilizationTasksType>;
+    // SprayingTasks:Array<SprayingTaskType>;
+    // MowingTheCropTasks:Array<MowingTheCropTaskType>;
+}
+type TasksTypes = {
+    [id:string]:{// field Id
+        "SOIL_GROUP":Array<SoilWorksTaskType>;
+        "SPRAYING_GROUP":Array<SprayingTaskType>;
+        "FERTILIZATION_GROUP":Array<FertilizationTasksType>;
+        "MOVING_THE_CROP_GROUP":Array<MowingTheCropTaskType>;
+    }
 }
 const initialFieldState:FieldType = {
     id:uuidv4(),
     trajectory:[],
     name:null,
     culture:[],
-    SoilWorksTasks:[],
-    FertilizationTasks:[],
-    SprayingTasks:[],
-    MowingTheCropTasks:[],
+    // SoilWorksTasks:[],
+    // FertilizationTasks:[],
+    // SprayingTasks:[],
+    // MowingTheCropTasks:[],
 }
 
 
@@ -58,41 +70,7 @@ const rectangle = [
     [51.5, -0.06],
 ]
 
-interface PopupProps {
-    onClose: () => void;
-}
-
-const FormPopup: React.FC<PopupProps> = ({onClose}) => {
-    return (
-        <div className="popup">
-            <button className="close-button" onClick={onClose}>
-                X
-            </button>
-            <form
-                style={{width: "93%", height: "99%", border: "1px solid red", display: "flex", flexDirection: "column"}}
-                action="">
-               <span>Цвет поля -
-                   <input style={{width: 35, borderRadius: 10}} type="color" onBlur={() => {
-                       console.log("color selected!")
-                   }}/>
-                   <span>  Нзавание-  <input type="text"/></span>
-               </span>
-                <br/>
-                <span> культура <button onClick={(e)=>{e.preventDefault()}}>+</button> <input type="text"/></span>
-                Подсолнух
-                <div>
-                    <span style={{display: "flex", width: 250, justifyContent: "space-around"}}><span>Уборка - </span><span><CalendarContainer
-                        calback={() => {
-                        }}/></span></span>
-                </div>
-
-            </form>
-        </div>
-    );
-};
 const PointOfPoligons = (props: { calback: (posiyion: PositionType | null) => void }) => {
-    const [position, setPosition] = useState<LatLng | null>(null);
-    console.log(position);
     const map = useMapEvents({
         click(e) {
             props.calback(e.latlng)
@@ -112,13 +90,13 @@ const PointOfPoligons = (props: { calback: (posiyion: PositionType | null) => vo
     return null
 }
 const App = () => {
+    const [agroFields,setAgroFields] = useState<Array<FieldType>>([])
     const [fields, setFields] = useState<Array<number[][]>>([]);
     const [painedPosition, setPainedPosition] = useState<Array<PositionType>>([]);
     const [flagForPaointPaint, setFlagForPointPaint] = useState<boolean>(false);
     const [isPopupOpen, setPopupOpen] = useState<boolean>(false);
     const [thoisedField, setThoisedField] = useState<number[][]>();
 
-    console.log(fields)
     const calback = (position: PositionType | null) => {
         if (!position) return
         setPainedPosition([...painedPosition, position])
@@ -216,5 +194,4 @@ const App = () => {
         </div>
     );
 };
-
 export default App;
