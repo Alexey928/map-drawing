@@ -24,7 +24,7 @@ export const useFields = () => {
     const setNewField = (trajectory: number[][]) => {
         setAgroFields([...agroFields, {id: uuidv4(), name: null, sqere: null, trajectory}]);
     }
-    const eleteField = (FieldID:string) => {
+    const deleteField = (FieldID:string) => {
         setAgroFields(agroFields.filter((el)=>el.id!==FieldID));
     }
     const setFieldName = (id: string, name: string) => {
@@ -49,6 +49,7 @@ export const useFields = () => {
         setFieldName,
         setFieldSquere,
         setCulture,
-        removeCulture
+        removeCulture,
+        deleteField,
     }
 }

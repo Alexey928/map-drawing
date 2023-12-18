@@ -99,18 +99,19 @@ const PointOfPoligons = (props: { calback: (posiyion: PositionType | null) => vo
     return null
 }
 const App = () => {
-    const {agroFields,fieldCultures,setNewField,setCulture} = useFields()
+    const {agroFields,fieldCultures,setNewField,setCulture,deleteField} = useFields()
     const [fields, setFields] = useState<Array<number[][]>>([]);
     const [painedPosition, setPainedPosition] = useState<Array<PositionType>>([]);
     const [flagForPaointPaint, setFlagForPointPaint] = useState<boolean>(false);
     const [isPopupOpen, setPopupOpen] = useState<boolean>(false);
     const [thoisedField, setThoisedField] = useState<number[][]>();
-
+    console.log(agroFields);
     const calback = (position: PositionType | null) => {
         if (!position) return
         setPainedPosition([...painedPosition, position])
         console.log(painedPosition);
     }
+
     const addPoligon = () => {
         if (painedPosition.length > 2) {
             const tempPaligon: number[][] = [];
@@ -141,11 +142,11 @@ const App = () => {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 <PointOfPoligons calback={flagForPaointPaint ? calback : () => {}}/>
-                {fields.map((el, i) => {
+                {agroFields.map((el, i) => {
                     return (
-                        <FeatureGroup eventHandlers={{
+                        <FeatureGroup key={i} eventHandlers={{
                             click: (e) => {
-                                setThoisedField([...el])
+                                setThoisedField([...el.trajectory])
                                 console.log(`${e.latlng} element`)
                             }
                         }} pathOptions={limeOptions}>
@@ -173,8 +174,9 @@ const App = () => {
                                     </div>
                                 </div>
                                 <button onClick={() => setPopupOpen(!isPopupOpen)}>SET</button>
+                                <button onClick={()=>{deleteField(el.id)}}>X</button>
                             </Popup>
-                            <Polygon key={i} positions={el as LatLngExpression[]}/>
+                            <Polygon key={i} positions={el.trajectory as LatLngExpression[]}/>
                         </FeatureGroup>
                     )
                 })}
