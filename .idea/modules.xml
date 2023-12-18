@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../../modern-strike/bad-cops/.idea/bad-cops.iml" filepath="$PROJECT_DIR$/../../modern-strike/bad-cops/.idea/bad-cops.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../it- incubator/IAZS_terminal/azs_app/.idea/iazs.iml" filepath="$PROJECT_DIR$/../../it- incubator/IAZS_terminal/azs_app/.idea/iazs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../incubator_tuu_doo_with_aut_server/.idea/incubator_tuu_doo_with_aut_server.iml" filepath="$PROJECT_DIR$/../../incubator_tuu_doo_with_aut_server/.idea/incubator_tuu_doo_with_aut_server.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/my-app.iml" filepath="$PROJECT_DIR$/.idea/my-app.iml" />
     </modules>
   </component>

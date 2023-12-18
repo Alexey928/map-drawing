@@ -8,7 +8,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="bad-cops" />
     <orderEntry type="module" module-name="iazs" />
+    <orderEntry type="module" module-name="incubator_tuu_doo_with_aut_server" />
   </component>
 </module>

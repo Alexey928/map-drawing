@@ -5,13 +5,13 @@ import {  LatLngExpression} from "leaflet";
 
 import {v4 as uuidv4} from 'uuid';
 import FormPopup from "./copnents/Popup";
+import {useFields} from "./Hooks/UseFields/useFields";
 
 type PositionType = {
     lat: number,
     lng: number
-
 }
-
+//_________________________TASKS TYPE_________________________________
 type MowingTheCropTaskType = {
     status: "isDone" | "inProgres"
     type: "FOR-CULTURE"
@@ -30,37 +30,46 @@ type FertilizationTasksType = {
     status: "isDone" | "inProgres"
     type: "FOR-FIELD"
 }
+//____________________________________________________________________________
+
 export type FieldType = {
     id: string;// forigen
     trajectory: number[][];
     name: string | null;
-    culture: Array<{id:string,name:string,collor:string}>;
+    sqere: number|null;
+    //culture: Array<{id:string,name:string,collor:string,sqere:number|null}>;
     // SoilWorksTasks: Array<SoilWorksTaskType>;// can bee refactoring to asociotiv array
     // FertilizationTasks:Array<FertilizationTasksType>;
     // SprayingTasks:Array<SprayingTaskType>;
     // MowingTheCropTasks:Array<MowingTheCropTaskType>;
 }
-type TasksTypes = {
-    [id:string]:{// field Id
-        "SOIL_GROUP":Array<SoilWorksTaskType>;
+//  in this case id is forigen key from FieldType
+ export  type SoilTasksTypes = {
+    [id:string]:{
+        SOIL_GROUP:Array<SoilWorksTaskType>;
+        FERTILIZATION_GROUP:Array<FertilizationTasksType>;
+    }
+}
+export type CultureType = {
+    [id:string]:Array<{ id:string,name:string,collor:string,sqere:number|null }>
+}
+export type CultureTaskType = {
+    [id:string]:{
         "SPRAYING_GROUP":Array<SprayingTaskType>;
-        "FERTILIZATION_GROUP":Array<FertilizationTasksType>;
-        "MOVING_THE_CROP_GROUP":Array<MowingTheCropTaskType>;
+        "MOWING_THE_CROP":Array<MowingTheCropTaskType>
     }
 }
 const initialFieldState:FieldType = {
     id:uuidv4(),
+    sqere:null,
     trajectory:[],
     name:null,
-    culture:[],
+    //culture:[],
     // SoilWorksTasks:[],
     // FertilizationTasks:[],
     // SprayingTasks:[],
     // MowingTheCropTasks:[],
 }
-
-
-
 const fillBlueOptions = {fillColor: 'blue'}
 const limeOptions = {color: '#e305f1', fillColor: "rgb(241,5,40)"}
 const tempBasePosition = {lat: 48.9935, lng: 36.230383};
@@ -90,7 +99,7 @@ const PointOfPoligons = (props: { calback: (posiyion: PositionType | null) => vo
     return null
 }
 const App = () => {
-    const [agroFields,setAgroFields] = useState<Array<FieldType>>([])
+    const {agroFields,fieldCultures,setNewField,setCulture} = useFields()
     const [fields, setFields] = useState<Array<number[][]>>([]);
     const [painedPosition, setPainedPosition] = useState<Array<PositionType>>([]);
     const [flagForPaointPaint, setFlagForPointPaint] = useState<boolean>(false);
@@ -108,6 +117,7 @@ const App = () => {
             painedPosition.forEach((el, i) => {
                 tempPaligon.push([el.lat, el.lng]);
             })
+            setNewField(tempPaligon)
             setFields([...fields, tempPaligon]);
             setPainedPosition([]);
         }
@@ -130,8 +140,7 @@ const App = () => {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                <PointOfPoligons calback={flagForPaointPaint ? calback : () => {
-                }}/>
+                <PointOfPoligons calback={flagForPaointPaint ? calback : () => {}}/>
                 {fields.map((el, i) => {
                     return (
                         <FeatureGroup eventHandlers={{
