@@ -144,13 +144,13 @@ const App = () => {
                 <PointOfPoligons calback={flagForPaointPaint ? calback : () => {}}/>
                 {agroFields.map((el, i) => {
                     return (
-                        <FeatureGroup key={i} eventHandlers={{
+                        <FeatureGroup key={el.id} eventHandlers={{
                             click: (e) => {
                                 setThoisedField([...el.trajectory])
                                 console.log(`${e.latlng} element`)
                             }
                         }} pathOptions={limeOptions}>
-                            <Popup autoClose className={"leaflet-popup-content-wrapper"}>
+                            <Popup  className={"leaflet-popup-content-wrapper"}>
                                 <div style={{color: "blue", height: 300, backgroundColor: "#adbbe8", width: 280}}>
                                     <header style={{width: "100%", backgroundColor: "salmon"}}>
                                         <div style={{color: "white", textAlign: "center"}}>
