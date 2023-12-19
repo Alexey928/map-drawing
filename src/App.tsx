@@ -176,7 +176,7 @@ const App = () => {
                                 <button onClick={() => setPopupOpen(!isPopupOpen)}>SET</button>
                                 <button onClick={()=>{deleteField(el.id)}}>X</button>
                             </Popup>
-                            <Polygon key={i} positions={el.trajectory as LatLngExpression[]}/>
+                            <Polygon  positions={el.trajectory as LatLngExpression[]}/>
                         </FeatureGroup>
                     )
                 })}
