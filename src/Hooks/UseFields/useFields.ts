@@ -5,7 +5,6 @@ import {v4 as uuidv4} from 'uuid';
 
 export const useFields = () => {
     const [agroFields, setAgroFields] = useState<Array<FieldType>>([]);
-
     //"id" is key from FieldType, in this state
     const [fieldTasks, setFieldTasks] = useState<SoilTasksTypes>({
         "id": {
@@ -20,9 +19,12 @@ export const useFields = () => {
         }
     });
     const [fieldCultures , setFieldCulture] = useState<CultureType>({"id":[]})
+    const [thoisedFieldID, setThoisedFieldID] = useState<string>();
 
     const setNewField = (trajectory: number[][]) => {
-        setAgroFields([...agroFields, {id: uuidv4(), name: null, sqere: null, trajectory}]);
+        const tempID = uuidv4()
+        setAgroFields([...agroFields, {id: tempID, name: null, sqere: null, trajectory}]);
+        setThoisedFieldID(tempID);
     }
     const deleteField = (FieldID:string) => {
         setAgroFields(agroFields.filter((el)=>el.id!==FieldID));
@@ -42,6 +44,7 @@ export const useFields = () => {
 
     return {
         agroFields,
+        thoisedFieldID,
         fieldTasks,
         cultureTasks,
         fieldCultures,

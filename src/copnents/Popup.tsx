@@ -1,24 +1,31 @@
 import React from 'react';
 import CalendarContainer from "../uiComponents/SelectOfData/CalendarContainer";
+import {useFields} from "../Hooks/UseFields/useFields";
+import {CultureType} from "../App";
+import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import FieldParamsForm from "./Forms/FieldParamsForm";
+
 interface PopupProps {
     onClose: () => void;
+    setCulture:(FieldID:string,name:string,sqere:number,collor:string)=>void;
+    fieldCultures:CultureType;
+    FieldID: string | undefined;
 }
 
-const FormPopup: React.FC<PopupProps> = ({onClose}) => {
-    return (
+
+
+const FormPopup: React.FC<PopupProps> = ({onClose,FieldID}) => {
+    console.log(FieldID);
+
+     return (
         <div className="popup">
             <button className="close-button" onClick={onClose}>
                 X
             </button>
-            <form
+            <div
                 style={{width: "93%", height: "99%", border: "1px solid red", display: "flex", flexDirection: "column"}}
-                action="">
-               <span>Цвет поля -
-                   <input style={{width: 35, borderRadius: 10}} type="color" onBlur={() => {
-                       console.log("color selected!")
-                   }}/>
-                   <span>  Нзавание-  <input type="text"/></span>
-               </span>
+                >
+                <FieldParamsForm/>
                 <br/>
                 <span> культура <button onClick={(e)=>{e.preventDefault()}}>+</button> <input type="text"/></span>
                 Подсолнух
@@ -28,7 +35,7 @@ const FormPopup: React.FC<PopupProps> = ({onClose}) => {
                         }}/></span></span>
                 </div>
 
-            </form>
+            </div>
         </div>
     );
 };

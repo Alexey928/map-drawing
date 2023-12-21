@@ -99,13 +99,14 @@ const PointOfPoligons = (props: { calback: (posiyion: PositionType | null) => vo
     return null
 }
 const App = () => {
-    const {agroFields,fieldCultures,setNewField,setCulture,deleteField} = useFields()
+    const {agroFields,fieldCultures,thoisedFieldID,setNewField,setCulture,deleteField} = useFields()
     const [fields, setFields] = useState<Array<number[][]>>([]);
     const [painedPosition, setPainedPosition] = useState<Array<PositionType>>([]);
     const [flagForPaointPaint, setFlagForPointPaint] = useState<boolean>(false);
     const [isPopupOpen, setPopupOpen] = useState<boolean>(false);
-    const [thoisedField, setThoisedField] = useState<number[][]>();
+
     console.log(agroFields);
+
     const calback = (position: PositionType | null) => {
         if (!position) return
         setPainedPosition([...painedPosition, position])
@@ -121,6 +122,7 @@ const App = () => {
             setNewField(tempPaligon)
             setFields([...fields, tempPaligon]);
             setPainedPosition([]);
+
         }
     }
 
@@ -146,7 +148,6 @@ const App = () => {
                     return (
                         <FeatureGroup key={el.id} eventHandlers={{
                             click: (e) => {
-                                setThoisedField([...el.trajectory])
                                 console.log(`${e.latlng} element`)
                             }
                         }} pathOptions={limeOptions}>
@@ -187,7 +188,12 @@ const App = () => {
                     )
                 })}
             </MapContainer>
-            {isPopupOpen && <FormPopup onClose={handleClosePopup}/>}
+            {isPopupOpen && <FormPopup
+                FieldID={thoisedFieldID}
+                fieldCultures={fieldCultures}
+                setCulture={setCulture}
+                onClose={handleClosePopup}
+            />}
             <input onChange={() => {
                 setFlagForPointPaint(!flagForPaointPaint)
             }} type={"checkbox"} checked={flagForPaointPaint}/>
@@ -200,7 +206,7 @@ const App = () => {
             <button disabled={!(painedPosition.length > 2)} onClick={() => {
                 addPoligon();
                 handleOpenPopup();
-            }}>+
+            }}> +
             </button>
         </div>
     );
