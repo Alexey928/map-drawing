@@ -8,15 +8,14 @@ interface FieldParamsFormType {
 }
 
 const FieldParamsForm = () => {
-    const {handleSubmit, control} = useForm<FieldParamsFormType>();
+    const {handleSubmit, control,register} = useForm<FieldParamsFormType>();
+
     const onSubmit: SubmitHandler<FieldParamsFormType> = (data) => {
-        console.log(data);
+        console.log(data,control);
     };
     const onError: SubmitErrorHandler<FieldParamsFormType> | undefined = (data) => {
-        console.log("error", data)
+        console.log("error", data);
     };
-
-
     return (
         <form onSubmit={handleSubmit(onSubmit, onError)}
               action="">
@@ -26,30 +25,40 @@ const FieldParamsForm = () => {
                    control={control} // передаем control из useForm
                    defaultValue="" // значение по умолчанию
                    render={({field}) => (
-                       <span>
-              Цвет поля -{' '}
+                       <span> Цвет поля -{' '}
                            <input
+                               {...(register("collor"),{ required:true })}
                                style={{width: 35, borderRadius: 10}}
                                type="color"
-                               {...field}
                            />
-                        </span>
+                       </span>
                    )}
-               />
-
-
+              />
                <span>
-                  Название -{' '}
+                   Площадь - {" "}
                    <Controller
-                       name="name"
+                       name="sqere"
                        control={control}
-                       defaultValue=""
-                       render={({field}) => <input type="text" {...field} />} // передаем пропсы в input
+                       defaultValue = {0}
+                       render={({field}) =>
+                           <input style={{width:50}}
+                                  type="number" step={5}
+                                  {...(register("sqere"),{ required:true })}
+                           />} // передаем пропсы в input
                    />
-                </span>
                </span>
+                   <span>
+                      Название -{' '}
+                       <Controller
+                           name="name"
+                           control={control}
+                           defaultValue=""
+                           render={({field}) => <input type="text" {...(register("collor"),{ required:true })} />} // передаем пропсы в input
+                       />
+                    </span>
+           </span>
 
-            <button type="submit">Отправить</button>
+            <button >Отправить</button>
         </form>
 
     );
