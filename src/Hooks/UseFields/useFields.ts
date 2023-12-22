@@ -29,11 +29,9 @@ export const useFields = () => {
     const deleteField = (FieldID:string) => {
         setAgroFields(agroFields.filter((el)=>el.id!==FieldID));
     }
-    const setFieldName = (id: string, name: string) => {
-        setAgroFields(agroFields.map((el) => el.id === id ? {...el, name} : el));
-    }
-    const setFieldSquere = (id: string, squere: number) => {
-        setAgroFields(agroFields.map((el) => el.id === id ? {...el, squere} : el));
+    const setFieldParams = (id: string, name: string, sqere: number) => {
+        console.log(name,sqere)
+        setAgroFields(agroFields.map((el) => el.id === id ? {...el, name,sqere} : el));
     }
     const setCulture = (FieldID:string,name:string,sqere:number,collor:string)=>{
         setFieldCulture({...fieldCultures,[FieldID]:[{id:uuidv4(),name,sqere,collor},...fieldCultures[FieldID]]});
@@ -41,16 +39,15 @@ export const useFields = () => {
     const removeCulture =(FieldID:string,cultureID:string)=>{
         setFieldCulture({...fieldCultures,[FieldID]:fieldCultures[FieldID].filter((el) => el.id !== cultureID)})
     }
-
     return {
         agroFields,
         thoisedFieldID,
         fieldTasks,
         cultureTasks,
         fieldCultures,
+        setThoisedFieldID,
         setNewField,
-        setFieldName,
-        setFieldSquere,
+        setFieldParams,
         setCulture,
         removeCulture,
         deleteField,

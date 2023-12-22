@@ -37,13 +37,8 @@ export type FieldType = {
     trajectory: number[][];
     name: string | null;
     sqere: number|null;
-    //culture: Array<{id:string,name:string,collor:string,sqere:number|null}>;
-    // SoilWorksTasks: Array<SoilWorksTaskType>;// can bee refactoring to asociotiv array
-    // FertilizationTasks:Array<FertilizationTasksType>;
-    // SprayingTasks:Array<SprayingTaskType>;
-    // MowingTheCropTasks:Array<MowingTheCropTaskType>;
 }
-//  in this case id is forigen key from FieldType
+//  in this case "id" is forigen key from FieldType
  export  type SoilTasksTypes = {
     [id:string]:{
         SOIL_GROUP:Array<SoilWorksTaskType>;
@@ -64,11 +59,6 @@ const initialFieldState:FieldType = {
     sqere:null,
     trajectory:[],
     name:null,
-    //culture:[],
-    // SoilWorksTasks:[],
-    // FertilizationTasks:[],
-    // SprayingTasks:[],
-    // MowingTheCropTasks:[],
 }
 const fillBlueOptions = {fillColor: 'blue'}
 const limeOptions = {color: '#e305f1', fillColor: "rgb(241,5,40)"}
@@ -99,7 +89,7 @@ const PointOfPoligons = (props: { calback: (posiyion: PositionType | null) => vo
     return null
 }
 const App = () => {
-    const {agroFields,fieldCultures,thoisedFieldID,setNewField,setCulture,deleteField} = useFields()
+    const {agroFields,fieldCultures,thoisedFieldID,setNewField,setCulture,deleteField,setFieldParams,setThoisedFieldID} = useFields()
     const [fields, setFields] = useState<Array<number[][]>>([]);
     const [painedPosition, setPainedPosition] = useState<Array<PositionType>>([]);
     const [flagForPaointPaint, setFlagForPointPaint] = useState<boolean>(false);
@@ -136,9 +126,9 @@ const App = () => {
     };
 
     return (
-        <div style={{width: "99vw", height: "90vh", position: "relative"}}>
+        <div style={{width: "100vw", height: "100vh", position: "relative"}}>
             <MapContainer center={[49.9935, 36.230383]} zoom={10} scrollWheelZoom={true}
-                          style={{width: "100%", height: "100%", padding: 0, zIndex: 0, cursor: "pointer"}}>
+                          style={{width: "100%", height: "100%", padding: 0,margin:0, zIndex: 0, cursor: "pointer"}}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -147,15 +137,17 @@ const App = () => {
                 {agroFields.map((el, i) => {
                     return (
                         <FeatureGroup key={el.id} eventHandlers={{
-                            click: (e) => {
-                                console.log(`${e.latlng} element`)
+                            click: () => {
+                                setThoisedFieldID(el.id)
+                                console.log(el.name, el.sqere);
+
                             }
                         }} pathOptions={limeOptions}>
                             <Popup  className={"leaflet-popup-content-wrapper"}>
                                 <div style={{color: "blue", height: 300, backgroundColor: "#adbbe8", width: 280}}>
                                     <header style={{width: "100%", backgroundColor: "salmon"}}>
                                         <div style={{color: "white", textAlign: "center"}}>
-                                            Номер/название Поля
+                                            {el.name??"Поле X Полевая Y"} S = {el.sqere??"?"}
                                         </div>
                                     </header>
                                     <div style={{}}>
@@ -188,26 +180,34 @@ const App = () => {
                     )
                 })}
             </MapContainer>
+
+            <div style={{boxShadow:"rgb(41 34 94 / 84%) -1px 0px 7px 1px",color:"white",position:"absolute" ,right:8,top:8,display:"flex",flexDirection:"column",backgroundColor:"rgba(2,9,47,0.78)", padding:5,borderRadius:5}}>
+                Рисовать поле {" "}
+                <input onChange={() => {
+                    setFlagForPointPaint(!flagForPaointPaint)
+                }} type={"checkbox"} checked={flagForPaointPaint}/>
+                <button style={{color:"red",marginTop:6}} onClick={() => {
+                    setPainedPosition([]);
+                    console.log("rrr");
+                }}>
+                    {"Сброс точек"}
+                </button>
+                <br/>
+                Добавить поле
+                <button style={{fontSize:25,padding:0,color:!(painedPosition.length > 2)?"rgba(82,74,101,0.92)":"rgb(8,227,1)",fontWeight:"bold"}} disabled={!(painedPosition.length > 2)} onClick={() => {
+                    addPoligon();
+                    handleOpenPopup();
+                }}> +
+                </button>
+            </div>
             {isPopupOpen && <FormPopup
                 FieldID={thoisedFieldID}
                 fieldCultures={fieldCultures}
+                setFieldParams={setFieldParams}
                 setCulture={setCulture}
                 onClose={handleClosePopup}
             />}
-            <input onChange={() => {
-                setFlagForPointPaint(!flagForPaointPaint)
-            }} type={"checkbox"} checked={flagForPaointPaint}/>
-            <button onClick={() => {
-                setPainedPosition([]);
-                console.log("rrr");
-            }}>
-                {"Сброс"}
-            </button>
-            <button disabled={!(painedPosition.length > 2)} onClick={() => {
-                addPoligon();
-                handleOpenPopup();
-            }}> +
-            </button>
+
         </div>
     );
 };

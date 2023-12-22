@@ -1,49 +1,40 @@
 import React from 'react';
-import {useForm, Controller, SubmitHandler, SubmitErrorHandler} from "react-hook-form";
+import {useForm, Controller, SubmitHandler} from "react-hook-form";
 
 interface FieldParamsFormType {
     name: string,
     sqere: number,
-    collor: string,
+
 }
 
-const FieldParamsForm = () => {
-    const {handleSubmit, control,register} = useForm<FieldParamsFormType>();
+type fieldParamsFormType = {
+    setFieldParams: ( name: string, squere: number)=>void
+
+}
+const FieldParamsForm:React.FC<fieldParamsFormType> = ({setFieldParams}) => {
+    const {handleSubmit, control, register} = useForm<FieldParamsFormType>({
+        defaultValues:{
+        }});
 
     const onSubmit: SubmitHandler<FieldParamsFormType> = (data) => {
-        console.log(data,control);
-    };
-    const onError: SubmitErrorHandler<FieldParamsFormType> | undefined = (data) => {
-        console.log("error", data);
+        console.log(data);
+        setFieldParams(data.name,data.sqere);
     };
     return (
-        <form onSubmit={handleSubmit(onSubmit, onError)}
+        <form onSubmit={handleSubmit(onSubmit)}
               action="">
            <span>
-               <Controller
-                   name="collor" // имя поля
-                   control={control} // передаем control из useForm
-                   defaultValue="" // значение по умолчанию
-                   render={({field}) => (
-                       <span> Цвет поля -{' '}
-                           <input
-                               {...(register("collor"),{ required:true })}
-                               style={{width: 35, borderRadius: 10}}
-                               type="color"
-                           />
-                       </span>
-                   )}
-              />
                <span>
                    Площадь - {" "}
                    <Controller
                        name="sqere"
                        control={control}
-                       defaultValue = {0}
                        render={({field}) =>
-                           <input style={{width:50}}
-                                  type="number" step={5}
-                                  {...(register("sqere"),{ required:true })}
+                           <input style={{width: 50}}
+                                  {...field}
+                                  type="number"
+                                  step={2}
+                                  {...(register("sqere"), {required: true})}
                            />} // передаем пропсы в input
                    />
                </span>
@@ -52,13 +43,18 @@ const FieldParamsForm = () => {
                        <Controller
                            name="name"
                            control={control}
-                           defaultValue=""
-                           render={({field}) => <input type="text" {...(register("collor"),{ required:true })} />} // передаем пропсы в input
+                           render={({field}) =>
+                               <input
+                                   {...field}
+                                   type="text"
+                                   {...(register("name"), {required: true,})}
+                               />
+                            }
                        />
                     </span>
            </span>
 
-            <button >Отправить</button>
+            <button>OK</button>
         </form>
 
     );
