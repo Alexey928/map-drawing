@@ -2,8 +2,6 @@ import React, {useState} from 'react';
 import {Circle, FeatureGroup, MapContainer, Polygon, Popup, TileLayer, useMapEvents} from "react-leaflet";
 import 'leaflet/dist/leaflet.css';
 import {  LatLngExpression} from "leaflet";
-
-import {v4 as uuidv4} from 'uuid';
 import FormPopup from "./copnents/Popup";
 import {useFields} from "./Hooks/UseFields/useFields";
 
@@ -13,22 +11,35 @@ type PositionType = {
 }
 //_________________________TASKS TYPE_________________________________
 type MowingTheCropTaskType = {
+    fieldID:string
     status: "isDone" | "inProgres"
-    type: "FOR-CULTURE"
+    type: "MOWING_THE_CROP"
     startDate: Date
     endDate: Date
+    harvesterID:string
 }
 type SprayingTaskType = {
+    fieldID:string
     status: "isDone" | "inProgres"
-    type: "FOR-CULTURE"
+    type: "SPRAYING_GROUP"
+    startDate: Date
+    endDate: Date
+    sprayingMachineId:string
 }
 type SoilWorksTaskType = {
+    fieldID:string
     status: "isDone" | "inProgres"
-    type: "FOR-FIELD"
+    type: "SOIL_GROUP"
+    startDate: Date
+    endDate: Date
+    tractorID:string
 }
 type FertilizationTasksType = {
+    fieldID:string
     status: "isDone" | "inProgres"
-    type: "FOR-FIELD"
+    type: "FERTILIZATION_GROUP"
+    startDate: Date
+    endDate: Date
 }
 //____________________________________________________________________________
 
@@ -48,26 +59,17 @@ export type FieldType = {
 export type CultureType = {
     [id:string]:Array<{ id:string,name:string,collor:string,sqere:number|null }>
 }
+//  in this case "id" is forigen key from CultureType children
 export type CultureTaskType = {
     [id:string]:{
         "SPRAYING_GROUP":Array<SprayingTaskType>;
         "MOWING_THE_CROP":Array<MowingTheCropTaskType>
     }
 }
-const initialFieldState:FieldType = {
-    id:uuidv4(),
-    sqere:null,
-    trajectory:[],
-    name:null,
-}
+
 const fillBlueOptions = {fillColor: 'blue'}
 const limeOptions = {color: '#e305f1', fillColor: "rgb(241,5,40)"}
 const tempBasePosition = {lat: 48.9935, lng: 36.230383};
-
-const rectangle = [
-    [51.49, -0.08],
-    [51.5, -0.06],
-]
 
 const PointOfPoligons = (props: { calback: (posiyion: PositionType | null) => void }) => {
     const map = useMapEvents({
@@ -89,7 +91,8 @@ const PointOfPoligons = (props: { calback: (posiyion: PositionType | null) => vo
     return null
 }
 const App = () => {
-    const {agroFields,fieldCultures,thoisedFieldID,setNewField,setCulture,deleteField,setFieldParams,setThoisedFieldID} = useFields()
+    const {agroFields,fieldCultures,thoisedFieldID,
+           setNewField,setCulture,deleteField,setFieldParams,setThoisedFieldID} = useFields()
     const [fields, setFields] = useState<Array<number[][]>>([]);
     const [painedPosition, setPainedPosition] = useState<Array<PositionType>>([]);
     const [flagForPaointPaint, setFlagForPointPaint] = useState<boolean>(false);

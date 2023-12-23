@@ -18,7 +18,7 @@ export const useFields = () => {
             SPRAYING_GROUP: [],
         }
     });
-    const [fieldCultures , setFieldCulture] = useState<CultureType>({"id":[]})
+    const [fieldCultures , setFieldCulture] = useState<CultureType>({"id":[]});
     const [thoisedFieldID, setThoisedFieldID] = useState<string>();
 
     const setNewField = (trajectory: number[][]) => {
@@ -39,6 +39,7 @@ export const useFields = () => {
     const removeCulture =(FieldID:string,cultureID:string)=>{
         setFieldCulture({...fieldCultures,[FieldID]:fieldCultures[FieldID].filter((el) => el.id !== cultureID)})
     }
+
     return {
         agroFields,
         thoisedFieldID,

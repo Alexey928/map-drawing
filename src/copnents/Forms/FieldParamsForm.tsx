@@ -6,11 +6,11 @@ interface FieldParamsFormType {
     sqere: number,
 
 }
-
 type fieldParamsFormType = {
     setFieldParams: ( name: string, squere: number)=>void
 
 }
+
 const FieldParamsForm:React.FC<fieldParamsFormType> = ({setFieldParams}) => {
     const {handleSubmit, control, register} = useForm<FieldParamsFormType>({
         defaultValues:{
