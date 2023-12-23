@@ -2,6 +2,7 @@ import React from 'react';
 import CalendarContainer from "../uiComponents/SelectOfData/CalendarContainer";
 import {CultureType} from "../App";
 import FieldParamsForm from "./Forms/FieldParamsForm";
+import CulturesParamsForm from "./Forms/CulturesParamsForm";
 
 interface PopupProps {
     onClose: () => void;
@@ -9,9 +10,8 @@ interface PopupProps {
     setCulture:(FieldID:string,name:string,sqere:number,collor:string)=>void;
     fieldCultures:CultureType;
     FieldID: string | undefined;
+
 }
-
-
 
 const FormPopup: React.FC<PopupProps> = ({onClose,FieldID,setFieldParams}) => {
     console.log(FieldID);
@@ -24,14 +24,8 @@ const FormPopup: React.FC<PopupProps> = ({onClose,FieldID,setFieldParams}) => {
                 >
                 <FieldParamsForm setFieldParams={(name, squere)=>{setFieldParams(FieldID!,name,squere)}}/>
                 <br/>
-                <span> культура <button onClick={(e)=>{e.preventDefault()}}>+</button> <input type="text"/></span>
-                Подсолнух
-                <div>
-                    <span style={{display: "flex", width: 250, justifyContent: "space-around"}}><span>Уборка - </span><span><CalendarContainer
-                        calback={() => {
-                        }}/></span></span>
-                </div>
-
+                <CulturesParamsForm/>
+                {/*<CalendarContainer calback={() => {}}/>*/}
             </div>
         </div>
     );
