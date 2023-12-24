@@ -94,7 +94,8 @@ export function RegularEditableSpan(props:EditableSpanPropsType){
     useEffect(()=>{
         if(clueChekTriger){
             const timeOut = setTimeout(()=>{
-                activateViewMode()
+                setClue([]);
+                setTitle("")
             },220);
             return ()=>clearTimeout(timeOut)
         }
@@ -103,6 +104,7 @@ export function RegularEditableSpan(props:EditableSpanPropsType){
     useEffect(() => {
            if(props.hash) {
                setClue(configureClue(title,props.hash ?? {}));
+
            }
     }, [debouncedValue]);
 
