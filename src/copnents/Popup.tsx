@@ -22,7 +22,7 @@ const FormPopup: React.FC<PopupProps> = ({onClose,FieldID,setFieldParams}) => {
             </button>
             <div style={{width: "93%", height: "99%", border: "1px solid #02092f", display: "flex", flexDirection: "column"}}
                 >
-                <FieldParamsForm setFieldParams={(name, squere)=>{setFieldParams(FieldID!,name,squere)}}/>
+                <FieldParamsForm name={"Поле 1 ПП1"} sqere={0} setFieldParams={(name, squere)=>{setFieldParams(FieldID!,name,squere)}}/>
                 <br/>
                 <CulturesParamsForm/>
                 {/*<CalendarContainer calback={() => {}}/>*/}

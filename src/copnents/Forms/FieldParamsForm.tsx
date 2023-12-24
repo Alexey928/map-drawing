@@ -8,17 +8,23 @@ interface FieldParamsFormType {
 }
 type fieldParamsFormType = {
     setFieldParams: ( name: string, squere: number)=>void
+    name:string,
+    sqere:number,
 
 }
-
-const FieldParamsForm:React.FC<fieldParamsFormType> = ({setFieldParams}) => {
-    const {handleSubmit, control, register} = useForm<FieldParamsFormType>({
-        defaultValues:{
-        }});
+const FieldParamsForm:React.FC<fieldParamsFormType> = ({setFieldParams,name,sqere}) => {
+    const {handleSubmit, control, register, reset} = useForm<FieldParamsFormType>({defaultValues: {
+        name: name,
+        sqere: sqere,}}
+    );
 
     const onSubmit: SubmitHandler<FieldParamsFormType> = (data) => {
-        console.log(data);
+        console.log(data,control);
         setFieldParams(data.name,data.sqere);
+        reset({
+            name: '',
+            sqere: 0,
+        })
     };
     return (
         <form onSubmit={handleSubmit(onSubmit)}
