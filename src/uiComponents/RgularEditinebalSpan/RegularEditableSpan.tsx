@@ -3,9 +3,7 @@ import style from "./editinebalSpan.module.css";
 import {configureClue, useDebounce} from './hook/useDebouns'
 
 type EditableSpanPropsType = {
-    //hasName?:string
     hash?:{[p: string]: string | number | null}
-
     widthClue?:boolean
     mutable:boolean
     title: string
@@ -132,7 +130,6 @@ export function RegularEditableSpan(props:EditableSpanPropsType){
                    placeholder={props.placeholder?props.placeholder:""}
                    value={title}
                    onChange={changeTitle}
-                   autoFocus
                    onBlur={onBlurHandler}
                    onKeyDown={(e:KeyboardEvent<HTMLInputElement>)=>e.key==="Enter"&&onKeyPresHandler()}
             />
