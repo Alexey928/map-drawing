@@ -10,7 +10,7 @@ const CulturesParamsForm = () => {
                 {isOpen&&<button onClick={(e)=>{e.preventDefault();setIsOpen(!isOpen)}}>+</button>}
             </header>
             <div className={`${style.cultureParamsFieldContainer} ${isOpen?style.containerOpen:""}`}>
-              <span className={style.cultureParamsFieldItem}> название - <input type={"text"}/></span>
+              <span className={style.cultureParamsFieldItem}> название- <input type={"text"}/></span>
                 <span className={style.cultureParamsFieldItem}> площадь - <span className={style.sgere}>
                     <input type={"number"}/>
                 </span></span>
