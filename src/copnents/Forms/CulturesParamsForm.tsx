@@ -34,7 +34,7 @@ const CulturesParamsForm = () => {
         <form>
             <header>
                 Добавить культуру <input type={"checkbox"} checked={isOpen} onClick={()=>setIsOpen(!isOpen)}/>
-                {isOpen&&<button style={{marginLeft:115,backgroundColor:"#00041f",color:"#3aff02"}} onClick={(e)=>{e.preventDefault();setIsOpen(!isOpen)}}>+</button>}
+                {isOpen&&<button style={{marginLeft:125,backgroundColor:"#00041f",color:"#3aff02"}} onClick={(e)=>{e.preventDefault();setIsOpen(!isOpen)}}>+</button>}
             </header>
             <div className={`${style.cultureParamsFieldContainer} ${isOpen?style.containerOpen:""}`}>
               <span className={style.cultureParamsFieldItem}> Название - <RegularEditableSpan hash={culturesDictionary} lang={"ru"} title={" "} mutable={false} type={"text"} /></span>

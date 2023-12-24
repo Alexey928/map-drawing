@@ -12,14 +12,14 @@
 }
 .containerOpen{
     opacity: 1;
-    height: 145px;
+    height: 155px;
     overflow: inherit;
 }
 
 .cultureParamsFieldItem {
     position: relative;
     display: flex;
-    width: 280px;
+    width: 300px;
     justify-content: space-between;
     align-items: center;
 }
