@@ -7,15 +7,15 @@ const CulturesParamsForm = () => {
         <form>
             <header>
                 Добавить культуру <input type={"checkbox"} checked={isOpen} onClick={()=>setIsOpen(!isOpen)}/>
-                {isOpen&&<button onClick={(e)=>{e.preventDefault();setIsOpen(!isOpen)}}>+</button>}
+                {isOpen&&<button style={{marginLeft:115,backgroundColor:"#00041f",color:"#3aff02"}} onClick={(e)=>{e.preventDefault();setIsOpen(!isOpen)}}>+</button>}
             </header>
             <div className={`${style.cultureParamsFieldContainer} ${isOpen?style.containerOpen:""}`}>
-              <span className={style.cultureParamsFieldItem}> название- <input type={"text"}/></span>
-                <span className={style.cultureParamsFieldItem}> площадь - <span className={style.sgere}>
+              <span className={style.cultureParamsFieldItem}> Название - <input type={"text"}/></span>
+                <span className={style.cultureParamsFieldItem}> Площадь - <span className={style.sgere}>
                     <input type={"number"}/>
                 </span></span>
 
-              <span className={style.cultureParamsFieldItem}> сорт- <input type={"text"}/></span>
+              <span className={style.cultureParamsFieldItem}> Сорт- <input type={"text"}/></span>
               <span className={style.cultureParamsFieldItem}> Цвет - <input type={"color"}/></span>
 
             </div>
