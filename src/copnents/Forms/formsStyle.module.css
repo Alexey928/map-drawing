@@ -18,7 +18,7 @@
 .cultureParamsFieldItem {
     position: relative;
     display: flex;
-    width: 250px;
+    width: 270px;
     justify-content: space-between;
     align-items: center;
 }
