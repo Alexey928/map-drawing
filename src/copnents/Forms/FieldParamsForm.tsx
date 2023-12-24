@@ -21,6 +21,7 @@ const FieldParamsForm:React.FC<fieldParamsFormType> = ({setFieldParams,name,sqer
     const onSubmit: SubmitHandler<FieldParamsFormType> = (data) => {
         console.log(data,control);
         setFieldParams(data.name,data.sqere);
+
         reset({
             name: '',
             sqere: 0,

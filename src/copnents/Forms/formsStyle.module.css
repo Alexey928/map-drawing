@@ -13,6 +13,7 @@
 .containerOpen{
     opacity: 1;
     height: 145px;
+    overflow: inherit;
 }
 
 .cultureParamsFieldItem {
@@ -22,6 +23,7 @@
     justify-content: space-between;
     align-items: center;
 }
+
 .cultureParamsFieldItem input[type = "number"]{
     width: 50px;
 }

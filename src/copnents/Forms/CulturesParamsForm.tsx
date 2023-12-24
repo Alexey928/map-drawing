@@ -1,5 +1,26 @@
 import React, {useState} from 'react';
 import style from "./formsStyle.module.css"
+import {RegularEditableSpan} from "../../uiComponents/RgularEditinebalSpan/RegularEditableSpan";
+
+const culturesDictionary  = {
+    "1":"Кукуруза",
+    "2":"Ячмень яровой",
+    "3":"Ячмень озимый",
+    "4":"Подсолнух",
+    "5":"Люцерна",
+    "6":"Рапс",
+}
+const plantVariety = {
+    "1":"Агрессор",
+    "2":"Вымпел",
+    "3":"Факел",
+    "4":"Какаду",
+    "5":"Дюпон",
+    "6":"Фигаро",
+    "7":"Фиолет",
+    "8":"Файна",
+    "9":"Фиорт",
+}
 
 const CulturesParamsForm = () => {
     const [isOpen,setIsOpen] = useState<boolean>(false)
@@ -10,12 +31,12 @@ const CulturesParamsForm = () => {
                 {isOpen&&<button style={{marginLeft:115,backgroundColor:"#00041f",color:"#3aff02"}} onClick={(e)=>{e.preventDefault();setIsOpen(!isOpen)}}>+</button>}
             </header>
             <div className={`${style.cultureParamsFieldContainer} ${isOpen?style.containerOpen:""}`}>
-              <span className={style.cultureParamsFieldItem}> Название - <input type={"text"}/></span>
+              <span className={style.cultureParamsFieldItem}> Название - <RegularEditableSpan hash={culturesDictionary} lang={"ru"} title={" "} mutable={false} type={"text"} /></span>
                 <span className={style.cultureParamsFieldItem}> Площадь - <span className={style.sgere}>
                     <input type={"number"}/>
                 </span></span>
 
-              <span className={style.cultureParamsFieldItem}> Сорт- <input type={"text"}/></span>
+              <span className={style.cultureParamsFieldItem}> Сорт- <RegularEditableSpan hash={plantVariety} lang={"ru"} title={" "} mutable={false} type={"text"} /></span>
               <span className={style.cultureParamsFieldItem}> Цвет - <input type={"color"}/></span>
 
             </div>
