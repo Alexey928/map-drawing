@@ -12,6 +12,13 @@
     transition: all 0.3s linear;
     box-shadow: 0 0 10px rgba(3, 248, 248, 0.91);
 }
+.numberInput{
+    width: 50px;
+}
+
+.input::placeholder{
+    color: rgba(11, 252, 3, 0.87);
+}
 .spanContainer{
     max-width: 210px;
     position: relative;

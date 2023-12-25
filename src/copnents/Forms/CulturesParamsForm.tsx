@@ -9,24 +9,44 @@ const culturesDictionary  = {
     "4":"Подсолнух",
     "5":"Люцерна",
     "6":"Рапс",
+
 }
-const plantVariety = {
-    "1":"Агрессор",
-    "2":"Вымпел",
-    "3":"Факел",
-    "4":"Какаду",
-    "5":"Дюпон",
-    "6":"Фигаро",
-    "7":"Фиолет",
-    "8":"Файна",
-    "9":"Фурор",
-    "10":"Фарт",
-    "11":"Флоу",
-    "12":"Фрискис",
-    "13":"Форос",
-    "14":"Фундук",
-    "15":"Фантан",
-}
+const realPlantVarieties = {
+    "1": "Агрессор",
+    "2": "Вымпел",
+    "3": "Никита",
+    "4": "Альфа",
+    "5": "Бета",
+    "6": "Гамма",
+    "7": "Дельта",
+    "8": "Эпсилон",
+    "9": "Зета",
+    "10": "Иота",
+    "11": "Каппа",
+    "12": "Лямбда",
+    "13": "Мю",
+    "14": "Ню",
+    "15": "Кси",
+    "16": "Омикрон",
+    "17": "Пи",
+    "18": "Ро",
+    "19": "Сигма",
+    "20": "Тау",
+    "21": "Чета",
+    "22": "Йота",
+    "23": "Микро",
+    "24": "Титан",
+    "25": "Орион",
+    "26": "Дельфин",
+    "27": "Аквилон",
+    "28": "Тритон",
+    "29": "Центавр",
+    "30": "Аполлон",
+    // Добавьте еще реальных названий, если необходимо
+};
+
+console.log(realPlantVarieties);
+
 
 const CulturesParamsForm = () => {
     const [isOpen,setIsOpen] = useState<boolean>(false)
@@ -37,12 +57,12 @@ const CulturesParamsForm = () => {
                 {isOpen&&<button style={{marginLeft:125,backgroundColor:"#00041f",color:"#3aff02"}} onClick={(e)=>{e.preventDefault();setIsOpen(!isOpen)}}>+</button>}
             </header>
             <div className={`${style.cultureParamsFieldContainer} ${isOpen?style.containerOpen:""}`}>
-              <span className={style.cultureParamsFieldItem}> Название - <RegularEditableSpan hash={culturesDictionary} lang={"ru"} title={" "} mutable={false} type={"text"} /></span>
+              <span className={style.cultureParamsFieldItem}> Название - <RegularEditableSpan onChange={()=>{}} hash={culturesDictionary} lang={"ru"}   type={"text"} /></span>
                 <span className={style.cultureParamsFieldItem}> Площадь - <span className={style.sgere}>
                     <input type={"number"}/>
                 </span></span>
 
-              <span className={style.cultureParamsFieldItem}> Сорт- <RegularEditableSpan hash={plantVariety} lang={"ru"} title={" "} mutable={false} type={"text"} /></span>
+              <span className={style.cultureParamsFieldItem}> Сорт- <RegularEditableSpan onChange={()=>{}} hash={realPlantVarieties} lang={"ru"} type={"text"} /></span>
               <span className={style.cultureParamsFieldItem}> Цвет - <input type={"color"}/></span>
 
             </div>
