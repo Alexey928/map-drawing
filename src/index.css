@@ -25,8 +25,8 @@ button{
     height: 100%;
     background-color: rgba(1, 13, 70, 0.93);
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+
 }
 .close-button {
     z-index: 100;

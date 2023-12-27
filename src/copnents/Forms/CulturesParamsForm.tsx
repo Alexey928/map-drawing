@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import style from "./formsStyle.module.css"
 import {RegularEditableSpan} from "../../uiComponents/RgularEditinebalSpan/RegularEditableSpan";
+import {Controller, SubmitHandler, useForm} from "react-hook-form";
+import SelectComponent from "../../uiComponents/SelectComponent/Select";
 
 const culturesDictionary  = {
     "1":"Кукуруза",
@@ -11,7 +13,7 @@ const culturesDictionary  = {
     "6":"Рапс",
 
 }
-const realPlantVarieties = {
+const plantVarieties = {
     "1": "Агрессор",
     "2": "Вымпел",
     "3": "Никита",
@@ -44,33 +46,97 @@ const realPlantVarieties = {
     "30": "Аполлон",
     // Добавьте еще реальных названий, если необходимо
 };
+console.log(plantVarieties);
 
-console.log(realPlantVarieties);
+type CultureFieldPropsType ={
+    cultureName:string
+    sqere:string
+    varietyOfCultureName:string
+    collor:string
+
+}
+type cultureParamsPropsType = {
+    setCultuteParam:(name:string,sqere:number,collor:string, variantyName:string)=>void
+
+}
+
+const CulturesParamsForm:React.FC<cultureParamsPropsType> = ({setCultuteParam}) => {
+    const [isOpen,setIsOpen] = useState<boolean>(false);
 
 
-const CulturesParamsForm = () => {
-    const [isOpen,setIsOpen] = useState<boolean>(false)
+    const[plaseholder,setPlaseholder] = useState(
+        {
+                sqere:"Введите S ",
+                culture:"Введите название",
+                varietyOfCultureName:"Введите название",
+        },
+    );
+    const onSubmit: SubmitHandler<CultureFieldPropsType> = (data) => {
+        console.log(data);
+        //setCultuteParam();
+    };
+    const {handleSubmit, control} = useForm<CultureFieldPropsType>();
+
     return (
-        <form>
+        <form  style={{backgroundColor:"#0f1526",borderBottomRightRadius:25,borderTopRightRadius:25}}>
             <header>
                 Добавить культуру <input type={"checkbox"} checked={isOpen} onClick={()=>setIsOpen(!isOpen)}/>
-                {isOpen&&<button style={{marginLeft:125,backgroundColor:"#00041f",color:"#3aff02"}} onClick={(e)=>{e.preventDefault();setIsOpen(!isOpen)}}>+</button>}
+                {isOpen&&<button type={"submit"} style={{marginLeft:125,backgroundColor:"#00041f",color:"#3aff02"}} onClick={(e)=>{e.preventDefault();setIsOpen(!isOpen)}}>+</button>}
             </header>
             <div className={`${style.cultureParamsFieldContainer} ${isOpen?style.containerOpen:""}`}>
-              <span className={style.cultureParamsFieldItem}> Название - <RegularEditableSpan onChange={()=>{}} hash={culturesDictionary} lang={"ru"}   type={"text"} /></span>
+              <span className={style.cultureParamsFieldItem}> Название -
+                  <Controller
+                      rules={{required:"Введите Название"}}
+                      name="cultureName"
+                      control={control}
+                      render={({field:{onChange}}) =>
+                          <RegularEditableSpan
+                              placeholder={plaseholder.culture}
+                              lang={"ru"}
+                              type={"text"}
+                              onChange={(newValue)=>{
+                                  onChange(newValue);
+                                  setPlaseholder({...plaseholder,culture: newValue ? newValue:"Введите название"})
+                              }}
+                          />
+                      }
+                  />
+              </span>
                 <span className={style.cultureParamsFieldItem}> Площадь - <span className={style.sgere}>
-                    <input type={"number"}/>
+                     <Controller
+                         name="sqere"
+                         control={control}
+                         render={({field:{onChange}}) =>
+                             <RegularEditableSpan
+                                 placeholder={plaseholder.sqere}
+                                 type={"number"}
+                                 onChange={(newValue)=>{
+                                     onChange(newValue);
+                                     setPlaseholder({...plaseholder,sqere: newValue ? newValue:"Введите площадь"})
+                                 }}
+                             />}
+                     />
                 </span></span>
 
-              <span className={style.cultureParamsFieldItem}> Сорт- <RegularEditableSpan onChange={()=>{}} hash={realPlantVarieties} lang={"ru"} type={"text"} /></span>
-              <span className={style.cultureParamsFieldItem}> Цвет - <input type={"color"}/></span>
-
+                <span className={style.cultureParamsFieldItem}> Сорт-
+               <Controller
+                   name="varietyOfCultureName"
+                   control={control}
+                   render={({field:{onChange}}) =>
+                       <RegularEditableSpan
+                           placeholder={plaseholder.varietyOfCultureName}
+                           type={"text"}
+                           onChange={(newValue)=>{
+                               onChange(newValue);
+                               setPlaseholder({...plaseholder,varietyOfCultureName: newValue ? newValue:"Введите название"})
+                           }}
+                       />}
+               />
+              </span>
+              <span className={style.cultureParamsFieldItem}> Цвет - <SelectComponent name={"выбрать"} options={[{value:"red"},{value:"blue"},{value:"yellow"}]}/></span>
             </div>
-            <div style={{width:"100%", backgroundColor:"#4556e0",marginTop:10}}>Подсолнух (Агрессор) S = 100 Га  <div style={{width:20,height:20,backgroundColor:"red",display:"inline-block"}}></div></div>
-            <div style={{width:"100%", backgroundColor:"#4556e0",marginTop:10}}>Кукуруза (Вымпел) S = 50 Га  <div style={{width:20,height:20,backgroundColor:"yellow",display:"inline-block"}}></div></div>
+
         </form>
     );
 };
-
-
 export default CulturesParamsForm;

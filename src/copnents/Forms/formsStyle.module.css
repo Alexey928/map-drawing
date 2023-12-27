@@ -15,7 +15,6 @@
     height: 155px;
     overflow: inherit;
 }
-
 .cultureParamsFieldItem {
     position: relative;
     display: flex;
@@ -23,9 +22,12 @@
     justify-content: space-between;
     align-items: center;
 }
-
 .cultureParamsFieldItem input[type = "number"]{
-    width: 50px;
+    width: 100px;
+}
+.sgere{
+    width: 100px;
+    position: relative;
 }
 
 .sgere:after {
@@ -36,8 +38,14 @@
     color: #d5f6ec;
     width: 25px;
     height: 25px;
+    top: 9px;
+    right: -24px;
+}
 
 
+.formButton{
+    background-color:#00041f;
+    color:#3aff02;
 }
 
 

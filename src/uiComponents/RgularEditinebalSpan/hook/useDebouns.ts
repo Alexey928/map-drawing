@@ -16,7 +16,6 @@ export const configureClueFormative = (formativeData:Array<{[key:string]:string|
                                        field:string,
                                        value:string)=>{
     console.log("formative -->",formativeData,field,value);
-
     const temp:Array<string> = []
     if(value){
         formativeData && formativeData.forEach((item)=>{

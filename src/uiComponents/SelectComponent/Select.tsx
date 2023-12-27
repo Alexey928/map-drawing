@@ -5,6 +5,7 @@ export interface Option {
     value: string;
 }
 interface SelectProps {
+
     name: string;
     options: Option[];
     onSelect?: (selectedValue: string) => void;
@@ -62,8 +63,6 @@ const SelectComponent: React.FC<SelectProps> = ({ options, onSelect, name ,}) =>
             document.removeEventListener('click', handleClickOutside);
         };
     }, []);
-
-
 
     return (
         <div ref={selectRef} className={style.select}>

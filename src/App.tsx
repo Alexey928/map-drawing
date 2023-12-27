@@ -57,7 +57,7 @@ export type FieldType = {
     }
 }
 export type CultureType = {
-    [id:string]:Array<{ id:string,name:string,collor:string,sqere:number|null }>
+    [id:string]:Array<{ id:string,name:string,variantyName:string,collor:string,sqere:number|null }>
 }
 //  in this case "id" is forigen key from CultureType children
 export type CultureTaskType = {
@@ -118,7 +118,6 @@ const App = () => {
 
         }
     }
-
     const handleOpenPopup = () => {
         setPopupOpen(true);
     };

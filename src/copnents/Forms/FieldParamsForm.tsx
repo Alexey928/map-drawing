@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {useForm, Controller, SubmitHandler} from "react-hook-form";
 import {RegularEditableSpan} from "../../uiComponents/RgularEditinebalSpan/RegularEditableSpan";
+import style from "./formsStyle.module.css"
 
 interface FieldParamsFormType {
     name: string,
@@ -12,18 +13,14 @@ type fieldParamsFormType = {
     name:string,
     sqere:string,
 }
-const FieldParamsForm:React.FC<fieldParamsFormType> = ({setFieldParams,name,sqere}) => {
+const FieldParamsForm:React.FC<fieldParamsFormType> = ({setFieldParams}) => {
     const[plaseholder,setPlaseholder] = useState({sqere:"Введите S ",name:"Введите название"})
-    const {handleSubmit, control, reset} = useForm<FieldParamsFormType>();
+
+    const {handleSubmit, control} = useForm<FieldParamsFormType>();
 
     const onSubmit: SubmitHandler<FieldParamsFormType> = (data) => {
         console.log(data);
         setFieldParams(data.name, +data.sqere);
-        reset({
-            name:"",
-            sqere:"",
-        })
-
     };
     return (
         <form onSubmit={handleSubmit(onSubmit)}
@@ -32,7 +29,6 @@ const FieldParamsForm:React.FC<fieldParamsFormType> = ({setFieldParams,name,sqer
                <span>
                    Площадь - Га{" "}
                    <Controller
-                       rules={{required:true}}
                        name="sqere"
                        control={control}
                        render={({field:{onChange}}) =>
@@ -41,28 +37,26 @@ const FieldParamsForm:React.FC<fieldParamsFormType> = ({setFieldParams,name,sqer
                                type={"number"}
                                onChange={(newValue)=>{
                                    onChange(newValue);
-                                   setPlaseholder({...plaseholder,sqere: newValue})
+                                   setPlaseholder({...plaseholder,sqere: newValue ? newValue:"Введите площадь"})
                                }}
                            />}
                    />
                </span>
                   <br/>
-                   <span>
+                   <span>-
                       Название / Абривиотура{' '}
-
                        <Controller
-                           rules={{required:true}}
+                           rules={{required:"Введите Название"}}
                            name="name"
                            control={control}
-                           render={({field:{onChange},fieldState:{error}}) =>
+                           render={({field:{onChange}}) =>
                                <RegularEditableSpan
                                    placeholder={plaseholder.name}
                                    lang={"ru"}
                                    type={"text"}
                                    onChange={(newValue)=>{
-                                       console.log(error)
                                        onChange(newValue);
-                                       setPlaseholder({...plaseholder,name: newValue})
+                                       setPlaseholder({...plaseholder,name: newValue ? newValue:"Введите название"})
                                    }}
                                />
                             }
@@ -70,7 +64,7 @@ const FieldParamsForm:React.FC<fieldParamsFormType> = ({setFieldParams,name,sqer
                     </span>
            </span>
 
-            <button type={"submit"}>OK</button>
+            <button className={style.formButton} type={"submit"}>OK</button>
         </form>
 
     );
