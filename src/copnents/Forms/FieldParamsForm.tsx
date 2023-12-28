@@ -15,9 +15,7 @@ type fieldParamsFormType = {
 }
 const FieldParamsForm:React.FC<fieldParamsFormType> = ({setFieldParams}) => {
     const[plaseholder,setPlaseholder] = useState({sqere:"Введите S ",name:"Введите название"})
-
     const {handleSubmit, control} = useForm<FieldParamsFormType>();
-
     const onSubmit: SubmitHandler<FieldParamsFormType> = (data) => {
         console.log(data);
         setFieldParams(data.name, +data.sqere);
@@ -63,7 +61,6 @@ const FieldParamsForm:React.FC<fieldParamsFormType> = ({setFieldParams}) => {
                        />
                     </span>
            </span>
-
             <button className={style.formButton} type={"submit"}>OK</button>
         </form>
 

@@ -3,6 +3,7 @@ import style from "./formsStyle.module.css"
 import {RegularEditableSpan} from "../../uiComponents/RgularEditinebalSpan/RegularEditableSpan";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import SelectComponent from "../../uiComponents/SelectComponent/Select";
+import {useColors} from "../../Hooks/UseFields/useFields";
 
 const culturesDictionary  = {
     "1":"Кукуруза",
@@ -52,7 +53,7 @@ type CultureFieldPropsType ={
     cultureName:string
     sqere:string
     varietyOfCultureName:string
-    collor:string
+    color:string
 
 }
 type cultureParamsPropsType = {
@@ -62,8 +63,7 @@ type cultureParamsPropsType = {
 
 const CulturesParamsForm:React.FC<cultureParamsPropsType> = ({setCultuteParam}) => {
     const [isOpen,setIsOpen] = useState<boolean>(false);
-
-
+    const {cultureColors,setColor,remoweColor} = useColors()
     const[plaseholder,setPlaseholder] = useState(
         {
                 sqere:"Введите S ",
@@ -72,16 +72,18 @@ const CulturesParamsForm:React.FC<cultureParamsPropsType> = ({setCultuteParam}) 
         },
     );
     const onSubmit: SubmitHandler<CultureFieldPropsType> = (data) => {
+        console.log("submit")
         console.log(data);
+        setIsOpen(!isOpen)
         //setCultuteParam();
     };
     const {handleSubmit, control} = useForm<CultureFieldPropsType>();
 
     return (
-        <form  style={{backgroundColor:"#0f1526",borderBottomRightRadius:25,borderTopRightRadius:25}}>
+        <form  onSubmit={handleSubmit(onSubmit)} action={""} style={{backgroundColor:"#0f1526",borderBottomRightRadius:25,borderTopRightRadius:25}}>
             <header>
                 Добавить культуру <input type={"checkbox"} checked={isOpen} onClick={()=>setIsOpen(!isOpen)}/>
-                {isOpen&&<button type={"submit"} style={{marginLeft:125,backgroundColor:"#00041f",color:"#3aff02"}} onClick={(e)=>{e.preventDefault();setIsOpen(!isOpen)}}>+</button>}
+                {isOpen&&<button type={"submit"} style={{marginLeft:125,backgroundColor:"#00041f",color:"#3aff02"}}>+</button>}
             </header>
             <div className={`${style.cultureParamsFieldContainer} ${isOpen?style.containerOpen:""}`}>
               <span className={style.cultureParamsFieldItem}> Название -
@@ -104,6 +106,7 @@ const CulturesParamsForm:React.FC<cultureParamsPropsType> = ({setCultuteParam}) 
               </span>
                 <span className={style.cultureParamsFieldItem}> Площадь - <span className={style.sgere}>
                      <Controller
+                         rules={{required:"Введите площадь"}}
                          name="sqere"
                          control={control}
                          render={({field:{onChange}}) =>
@@ -120,6 +123,7 @@ const CulturesParamsForm:React.FC<cultureParamsPropsType> = ({setCultuteParam}) 
 
                 <span className={style.cultureParamsFieldItem}> Сорт-
                <Controller
+                   rules={{required:"Введите Название"}}
                    name="varietyOfCultureName"
                    control={control}
                    render={({field:{onChange}}) =>
@@ -133,9 +137,24 @@ const CulturesParamsForm:React.FC<cultureParamsPropsType> = ({setCultuteParam}) 
                        />}
                />
               </span>
-              <span className={style.cultureParamsFieldItem}> Цвет - <SelectComponent name={"выбрать"} options={[{value:"red"},{value:"blue"},{value:"yellow"}]}/></span>
-            </div>
+              <span className={style.cultureParamsFieldItem}> Цвет -
+                  <Controller
+                      rules={{required:"Введите цвет"}}
+                      control={control}
+                      name={"color"}
+                      render={({field:{onChange}})=>
+                          <SelectComponent
+                              onSelect={(newValue)=>{
+                                  console.log("select",newValue)
+                                onChange(newValue)
+                              }}
+                              name={"выбрать"}
+                              options={cultureColors}
+                          />}
 
+                  />
+              </span>
+            </div>
         </form>
     );
 };

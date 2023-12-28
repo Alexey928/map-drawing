@@ -2,7 +2,10 @@ import React, { useEffect, useState, useRef } from 'react';
 import style from "./select.module.css"
 
 export interface Option {
-    value: string;
+    id:string
+    colorName:string
+    hex:string
+
 }
 interface SelectProps {
 
@@ -45,11 +48,12 @@ const SelectComponent: React.FC<SelectProps> = ({ options, onSelect, name ,}) =>
     const [active, setActive] = useState(false);
     const selectRef = useRef<HTMLDivElement | null>(null);// Ссылка на DOM-элемент селекта
     const handleSelectChange = (event: React.MouseEvent<HTMLLIElement>) => {
+        console.log(event.currentTarget.innerText);
         setSelectedOption(event.currentTarget.innerText);
         setActive(!active);
         onSelect && onSelect(event.currentTarget.innerText)
     };
-
+    console.log(selectedOption)
     useEffect(() => {
         // Добавляем обработчик события клика на документ
         const handleClickOutside = (event: MouseEvent) => {
@@ -77,13 +81,12 @@ const SelectComponent: React.FC<SelectProps> = ({ options, onSelect, name ,}) =>
                     <li
                         key={i}
                         onClick={handleSelectChange}
-                        className={selectedOption === option.value ? style.selectItemActive : style.selectItem}>
-                        {option.value}
+                        className={selectedOption === option.colorName ? style.selectItemActive : style.selectItem}>
+                        {`${option.colorName}`}<div style={{width:20,height:20,backgroundColor:option.hex??"red",display:"inline-block"}}></div>
                     </li>
                 ))}
             </ul>
         </div>
     );
 };
-
 export default SelectComponent;

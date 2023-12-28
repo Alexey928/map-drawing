@@ -60,9 +60,27 @@ export const useFields = () => {
         deleteField,
     }
 }
+const initialColors: CultureColorsType[]= [
+    {
+        id:"1",
+        colorName:"красный",
+        hex:"#F10303FF"
+    },
+    {
+        id:"2",
+        colorName:"зеленый",
+        hex:"#37bb01"
+    },
+    {
+        id:"3",
+        colorName:"синий",
+        hex:"#0022ff"
+    },
+
+]
 
 export const useColors = () => {
-    const[cultureColors, setCultureCollors] = useState<CultureColorsType[]>([])
+    const[cultureColors, setCultureCollors] = useState<CultureColorsType[]>(initialColors)
     const setColor = (colorName:string,hex:string)=>{
         setCultureCollors([...cultureColors,{id:uuidv4(),colorName,hex}])
     }
