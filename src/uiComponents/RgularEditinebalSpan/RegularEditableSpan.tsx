@@ -35,9 +35,10 @@ export function RegularEditableSpan(props:EditableSpanPropsType){
 
     const onClueItemClickHandler = (e: React.MouseEvent<HTMLLIElement>)=>{
         const textContent = e.currentTarget.textContent
+        debugger
         if(textContent){
             setTitle(textContent)
-            props.handler && title && props.handler(textContent.toLowerCase());
+            props.onChange && props.onChange(textContent);
             setClue([])
             setTitle("")
         }

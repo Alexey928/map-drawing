@@ -9,10 +9,10 @@ interface PopupProps {
     setCulture: (FieldID: string, name: string, sqere: number, collor: string, variantyName: string) => void;
     fieldCultures: CultureType;
     FieldID: string | undefined;
-
 }
 
-const FormPopup: React.FC<PopupProps> = ({onClose, FieldID, setFieldParams, setCulture}) => {
+
+const FormPopup: React.FC<PopupProps> = ({onClose, FieldID, setFieldParams, setCulture,fieldCultures}) => {
     console.log(FieldID);
     return (
 
@@ -24,7 +24,7 @@ const FormPopup: React.FC<PopupProps> = ({onClose, FieldID, setFieldParams, setC
             >
                 <FieldParamsForm
                     name={""} sqere={""}
-                    setFieldParams={(name, squere) => {
+                    setFieldParams={(name:string, squere:number) => {
                         setFieldParams(FieldID!, name, squere)
                     }}/>
                 <br/>
@@ -33,10 +33,12 @@ const FormPopup: React.FC<PopupProps> = ({onClose, FieldID, setFieldParams, setC
                         setCulture(FieldID!, name, sqere, variantyName, collor);
                     }}/>
             </div>
-            <div style={{width: "100%", backgroundColor: "#4556e0", marginTop: 10}}>Подсолнух (Агрессор) S = 100 Га <div
-                style={{width: 20, height: 20, backgroundColor: "red", display: "inline-block"}}></div></div>
-            <div style={{width: "100%", backgroundColor: "#4556e0", marginTop: 10}}>Кукуруза (Вымпел) S = 50 Га <div
-                style={{width: 20, height: 20, backgroundColor: "yellow", display: "inline-block"}}></div></div>
+            { fieldCultures[FieldID!] ? fieldCultures[FieldID!].map((el) => {
+                return(
+                    <div>1</div>
+                )
+            }):null}
+
         </div>
 
 

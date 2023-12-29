@@ -63,6 +63,7 @@ type cultureParamsPropsType = {
 
 const CulturesParamsForm:React.FC<cultureParamsPropsType> = ({setCultuteParam}) => {
     const [isOpen,setIsOpen] = useState<boolean>(false);
+    const [isSubmited, setIsSubmited] = useState<boolean>(false)
     const {cultureColors,setColor,remoweColor} = useColors()
     const[plaseholder,setPlaseholder] = useState(
         {
@@ -71,19 +72,27 @@ const CulturesParamsForm:React.FC<cultureParamsPropsType> = ({setCultuteParam}) 
                 varietyOfCultureName:"Введите название",
         },
     );
+    const {handleSubmit, control, formState,reset} = useForm<CultureFieldPropsType>();
+
     const onSubmit: SubmitHandler<CultureFieldPropsType> = (data) => {
         console.log("submit")
         console.log(data);
-        setIsOpen(!isOpen)
+        setIsOpen(!isOpen);
+        setPlaseholder({
+            sqere:"Введите S ",
+            culture:"Введите название",
+            varietyOfCultureName:"Введите название",})
+        reset({sqere:"",cultureName:"",varietyOfCultureName:""})
         //setCultuteParam();
     };
-    const {handleSubmit, control} = useForm<CultureFieldPropsType>();
+
+    console.log(formState);
 
     return (
-        <form  onSubmit={handleSubmit(onSubmit)} action={""} style={{backgroundColor:"#0f1526",borderBottomRightRadius:25,borderTopRightRadius:25}}>
+        <form  onSubmit={handleSubmit(onSubmit)} action={""} style={{backgroundColor:"#0f1526",borderBottomRightRadius:25,borderTopRightRadius:25 , padding:15}}>
             <header>
                 Добавить культуру <input type={"checkbox"} checked={isOpen} onClick={()=>setIsOpen(!isOpen)}/>
-                {isOpen&&<button type={"submit"} style={{marginLeft:125,backgroundColor:"#00041f",color:"#3aff02"}}>+</button>}
+                {isOpen&&<button disabled={!formState.isValid} type={"submit"} style={{marginLeft:125,backgroundColor:"#00041f",color:"#3aff02",boxShadow:formState.isValid? "#3aff02 0px 1px 8px 6px" : "rgb(255 6 6) 0px 1px 8px 6px"}}>+</button>}
             </header>
             <div className={`${style.cultureParamsFieldContainer} ${isOpen?style.containerOpen:""}`}>
               <span className={style.cultureParamsFieldItem}> Название -
@@ -128,6 +137,7 @@ const CulturesParamsForm:React.FC<cultureParamsPropsType> = ({setCultuteParam}) 
                    control={control}
                    render={({field:{onChange}}) =>
                        <RegularEditableSpan
+                           hash={culturesDictionary}
                            placeholder={plaseholder.varietyOfCultureName}
                            type={"text"}
                            onChange={(newValue)=>{
@@ -151,8 +161,7 @@ const CulturesParamsForm:React.FC<cultureParamsPropsType> = ({setCultuteParam}) 
                               name={"выбрать"}
                               options={cultureColors}
                           />}
-
-                  />
+                      />
               </span>
             </div>
         </form>

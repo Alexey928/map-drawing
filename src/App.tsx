@@ -56,8 +56,15 @@ export type FieldType = {
         FERTILIZATION_GROUP:Array<FertilizationTasksType>;
     }
 }
+export type CultureItemType = {
+    id:string,
+    name:string,
+    variantyName:string,
+    collor:string,
+    sqere:number
+}
 export type CultureType = {
-    [id:string]:Array<{ id:string,name:string,variantyName:string,collor:string,sqere:number|null }>
+    [id:string]:Array<CultureItemType>
 }
 //  in this case "id" is forigen key from CultureType children
 export type CultureTaskType = {
