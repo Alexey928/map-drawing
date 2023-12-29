@@ -35,7 +35,7 @@ const FormPopup: React.FC<PopupProps> = ({onClose, FieldID, setFieldParams, setC
             </div>
             { fieldCultures[FieldID!] ? fieldCultures[FieldID!].map((el) => {
                 return(
-                    <div>1</div>
+                    <div style={{border:`3px solid ${el.collor}`,height:30}}>{`${el.name} ( ${el.variantyName} )  ---- ${el.sqere} Га ` }</div>
                 )
             }):null}
 

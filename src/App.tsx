@@ -100,7 +100,7 @@ const PointOfPoligons = (props: { calback: (posiyion: PositionType | null) => vo
 const App = () => {
     const {agroFields,fieldCultures,thoisedFieldID,
            setNewField,setCulture,deleteField,setFieldParams,setThoisedFieldID} = useFields()
-    const [fields, setFields] = useState<Array<number[][]>>([]);
+    //const [fields, setFields] = useState<Array<number[][]>>([]);
     const [painedPosition, setPainedPosition] = useState<Array<PositionType>>([]);
     const [flagForPaointPaint, setFlagForPointPaint] = useState<boolean>(false);
     const [isPopupOpen, setPopupOpen] = useState<boolean>(false);
@@ -120,7 +120,7 @@ const App = () => {
                 tempPaligon.push([el.lat, el.lng]);
             })
             setNewField(tempPaligon)
-            setFields([...fields, tempPaligon]);
+            //setFields([...fields, tempPaligon]);
             setPainedPosition([]);
 
         }

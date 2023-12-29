@@ -7,12 +7,9 @@ type CultureColorsType =  {
     colorName:string
     hex:string
 }
-
-
 export const useFields = () => {
     const [agroFields, setAgroFields] = useState<Array<FieldType>>([]);
     //"id" is key from FieldType, in this state
-
     const [fieldTasks, setFieldTasks] = useState<SoilTasksTypes>({
         "id": {
             SOIL_GROUP: [],
@@ -25,21 +22,22 @@ export const useFields = () => {
             SPRAYING_GROUP: [],
         }
     });
-    const [fieldCultures , setFieldCulture] = useState<CultureType>({"id":[]});
+    const [fieldCultures , setFieldCulture] = useState<CultureType>({});
     const [thoisedFieldID, setThoisedFieldID] = useState<string>();
     const setNewField = (trajectory: number[][]) => {
         const tempID = uuidv4()
         setAgroFields([...agroFields, {id: tempID, name: null, sqere: null, trajectory}]);
+        setFieldCulture({...fieldCultures,[tempID]:[]})
         setThoisedFieldID(tempID);
     }
     const deleteField = (FieldID:string) => {
         setAgroFields(agroFields.filter((el)=>el.id!==FieldID));
+        delete fieldCultures[FieldID];
     }
     const setFieldParams = (id: string, name: string, sqere: number) => {
-        console.log(name,sqere)
         setAgroFields(agroFields.map((el) => el.id === id ? {...el, name,sqere} : el));
     }
-    const setCulture = (FieldID:string,name:string,sqere:number,collor:string,variantyName:string)=>{
+    const setCulture = (FieldID:string,name:string,sqere:number,variantyName:string,collor:string)=>{
         setFieldCulture({...fieldCultures,[FieldID]:[{id:uuidv4(),name,sqere,collor,variantyName},...fieldCultures[FieldID]]});
     }
     const removeCulture =(FieldID:string,cultureID:string)=>{
@@ -64,7 +62,7 @@ const initialColors: CultureColorsType[]= [
     {
         id:"1",
         colorName:"красный",
-        hex:"#F10303FF"
+        hex:"#f10303"
     },
     {
         id:"2",
@@ -76,7 +74,16 @@ const initialColors: CultureColorsType[]= [
         colorName:"синий",
         hex:"#0022ff"
     },
-
+    {
+        id:"4",
+        colorName:"желтый",
+        hex:"#e5c722"
+    },
+    {
+        id:"5",
+        colorName:"сереневый",
+        hex:"#cc00ff"
+    },
 ]
 
 export const useColors = () => {

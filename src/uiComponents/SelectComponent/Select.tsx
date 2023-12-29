@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import style from "./select.module.css"
+import {inspect} from "util";
+
 
 export interface Option {
     id:string
@@ -47,12 +49,21 @@ const SelectComponent: React.FC<SelectProps> = ({ options, onSelect, name ,}) =>
     const [selectedOption, setSelectedOption] = useState('');
     const [active, setActive] = useState(false);
     const selectRef = useRef<HTMLDivElement | null>(null);// Ссылка на DOM-элемент селекта
+
     const handleSelectChange = (event: React.MouseEvent<HTMLLIElement>) => {
         console.log(event.currentTarget.innerText);
         setSelectedOption(event.currentTarget.innerText);
         setActive(!active);
         onSelect && onSelect(event.currentTarget.innerText)
     };
+
+    const heandleCollorSelectChange = (collor:string)=>{
+        setSelectedOption(collor);
+        setActive(!active);
+        onSelect && onSelect(collor);
+
+    }
+
     console.log(selectedOption)
     useEffect(() => {
         // Добавляем обработчик события клика на документ
@@ -78,11 +89,11 @@ const SelectComponent: React.FC<SelectProps> = ({ options, onSelect, name ,}) =>
             </header>
             <ul className={active ? style.selectBodyActive : style.selectBody}>
                 {options.map((option, i) => (
-                    <li
+                    <li style={{position:"relative"}}
                         key={i}
-                        onClick={handleSelectChange}
-                        className={selectedOption === option.colorName ? style.selectItemActive : style.selectItem}>
-                        {`${option.colorName}`}<div style={{width:20,height:20,backgroundColor:option.hex??"red",display:"inline-block"}}></div>
+                        onClick={()=>{heandleCollorSelectChange(option.hex)}}
+                        className={selectedOption === option.hex ? style.selectItemActive : style.selectItem}>
+                        {`${option.colorName}`}<div style={{width:20,height:20,backgroundColor:option.hex??"red",display:"inline-block", position:"absolute",right:0}}></div>
                     </li>
                 ))}
             </ul>

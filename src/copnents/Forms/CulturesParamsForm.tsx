@@ -12,6 +12,21 @@ const culturesDictionary  = {
     "4":"Подсолнух",
     "5":"Люцерна",
     "6":"Рапс",
+    "7":"Бововна",
+    "8":"Картофель",
+    "9":"Овес",
+    "10":"Гречка",
+    "11":"Горчица",
+    "12":"Буряк сахоррнный",
+    "13":"Буряк красный",
+    "15":"Морковь",
+    "16":"Лен",
+    "17":"Віковес",
+    "18":"Конопля",
+    "19":"Соя",
+    "20":"Просо",
+    "21":"Горох",
+
 
 }
 const plantVarieties = {
@@ -83,7 +98,7 @@ const CulturesParamsForm:React.FC<cultureParamsPropsType> = ({setCultuteParam}) 
             culture:"Введите название",
             varietyOfCultureName:"Введите название",})
         reset({sqere:"",cultureName:"",varietyOfCultureName:""})
-        //setCultuteParam();
+        setCultuteParam(data.cultureName, +data.sqere, data.color, data.varietyOfCultureName);
     };
 
     console.log(formState);
@@ -102,6 +117,7 @@ const CulturesParamsForm:React.FC<cultureParamsPropsType> = ({setCultuteParam}) 
                       control={control}
                       render={({field:{onChange}}) =>
                           <RegularEditableSpan
+                              hash={culturesDictionary}
                               placeholder={plaseholder.culture}
                               lang={"ru"}
                               type={"text"}
@@ -137,7 +153,8 @@ const CulturesParamsForm:React.FC<cultureParamsPropsType> = ({setCultuteParam}) 
                    control={control}
                    render={({field:{onChange}}) =>
                        <RegularEditableSpan
-                           hash={culturesDictionary}
+                           lang={"ru"}
+                           hash={plantVarieties}
                            placeholder={plaseholder.varietyOfCultureName}
                            type={"text"}
                            onChange={(newValue)=>{
